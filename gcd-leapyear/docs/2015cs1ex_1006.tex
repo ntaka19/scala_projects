@@ -1,0 +1,197 @@
+\documentclass[a4paper]{article}
+\usepackage{xeCJK}
+\usepackage{url}
+\defaultfontfeatures{Ligatures=TeX}
+
+\setCJKmainfont{IPAMincho}
+\setCJKsansfont{IPAGothic}
+\setCJKmonofont{IPAGothic}
+
+
+%\setmainfont{}
+\setsansfont{URW Gothic}
+\setmonofont{Inconsolata}
+
+\usepackage{listings}
+
+\title{計算機科学第一}
+\date{10月6日}
+
+\begin{document}
+\maketitle
+
+今日の目標
+\begin{itemize}
+\item バージョン管理システム Git を使えるようになる。
+\item Scala の2通りの実行方法を経験する。
+\item Scala の ビルドツール sbt をある程度使えるようになる。
+\end{itemize}
+
+\section{バージョン管理システム Git について}
+\subsection{バージョン管理システムとは}
+バージョン管理システムはある程度の規模のプログラム(もっと一般にテキストファイル)を書く上では必須のツールです。
+今までプログラムを書いてきて、既にある程度動作するプログラムに大きな変更を加えたくなったことがあると思います。
+そのような場合に一旦別ファイルにコピーしてからプログラムを編集した経験があるかもしれません。
+バージョン管理システムを使えばそのようなことをする必要はありません。
+またチームでプログラムの開発をする場合には一つのファイルを複数の開発者が書き換えた場合に可能な限り自動的にマージをしてくれます。
+この授業では最近のバージョン管理システムの中でも最もよく使用されている Git を使います。
+
+\subsection{Git の使い方}
+\subsubsection{初期設定}
+ホームディレクトリに \texttt{.gitconfig} というファイルを作って以下のように書いてください。
+\begin{verbatim}
+[user]
+        name = #名前#
+        email = #メールアドレス#
+[push]
+        default = simple
+\end{verbatim}
+ここで \texttt{\#名前\#} はあなたの名前の英語表記で置き換えてください。
+また \texttt{\#メールアドレス\#} はあなたのメールアドレスで置き換えてください。
+
+\subsubsection{リポジトリを作る}
+Git はリポジトリという単位でファイル群を管理します。
+まず Git で管理したいディレクトリに移動します。
+既に作成したファイルがあっても、空のディレクトリであっても構いません。
+そして
+\begin{verbatim}
+git init
+\end{verbatim}
+とコマンドを実行します。
+これで現在のディレクトリ以下を Git で管理できるようになりました。
+この Git で管理されているディレクトリのことをリポジトリと呼びます。
+このディレクトリには \texttt{.git} というディレクトリが作成されています(\texttt{ls -A} で確認できます)。
+このディレクトリは Git が情報を保存するためのディレクトリであり、設定ファイルである \texttt{.git/config} 以外を編集することはありません。
+
+\subsubsection{管理するファイルを追加する}
+リポジトリを作っただけでは Git はどのファイルを管理すればよいのか分かりません。
+\begin{verbatim}
+git add #ファイル名#
+\end{verbatim}
+というコマンドで Git で管理したいファイルを指定します。
+ここで \texttt{\#ファイル名\#}は Git で管理したいファイル名に置き換えてください。
+たとえば \texttt{hello.scala} というファイルを Git で管理したいときは
+\begin{verbatim}
+git add hello.scala
+\end{verbatim}
+としてください。これで Git は 「\texttt{hello.scala} というファイルの変更を管理すればよいのだ」
+ということを理解します。しかしまだ Git は\texttt{hello.scala} の内容を読んではいません。
+次に紹介する \texttt{git commit} でファイルの内容を記録する必要があります。
+また一つのリポジトリ内で複数のファイルを追加しても構いません。
+
+
+\subsubsection{管理しているファイルの変更を記録する}
+今現在のファイルの状態を Git で記録したいときは
+\begin{verbatim}
+git commit #ファイル名# -m "#コメント#"
+\end{verbatim}
+とします。
+ここで \texttt{\#コメント\#} は「このファイルの変更に対するコメント」で置き換えてください。
+自分一人しか使用しないリポジトリの場合はこのコメントはなんでもよいです。
+
+リポジトリ内で最終コミット以降に更新された全てのファイルの変更を記録したいときは
+\begin{verbatim}
+git commit -a -m "#コメント#"
+\end{verbatim}
+としてください。
+
+コミット直後に Git が記録している最新のファイルの状態をリビジョンと呼び、それぞれのコミットに「リビジョン名」が割り当てられます(後述)。
+
+
+\subsubsection{その他のコマンド}
+過去のコミットログを見たい場合は
+\begin{verbatim}
+git log
+\end{verbatim}
+としてください。
+
+最終コミットと現在のファイルとの差分を見るには
+\begin{verbatim}
+git diff
+\end{verbatim}
+としてください。
+特定のリビジョンと現在のファイルとの差分を見たい場合は
+\begin{verbatim}
+git diff #リビジョン名#
+\end{verbatim}
+としてください。
+ここで \texttt{\#リビジョン名\#}は比較したいリビジョンのリビジョン名で置き換えてください。
+ここでリビジョン名とは \texttt{git log} で該当するコミットに関するログ
+\begin{verbatim}
+commit 8ac50947b3f75158f457335c65f3ff93e687c045
+Author: Ryuhei Mori <mori@is.titech.ac.jp>
+Date:   Sat Sep 19 10:33:44 2015 +0900
+
+    comment
+\end{verbatim}
+の中で \texttt{8ac50947b3f75158f457335c65f3ff93e687c045} にあたる部分です。
+これはとても長いですが最初の数文字を指定すれば十分です。
+例えばこの例の場合は
+\begin{verbatim}
+git diff 8ac509
+\end{verbatim}
+としてください。
+
+特定のリビジョン同士の差分を見るには
+\begin{verbatim}
+git diff #リビジョン名1# #リビジョン名2#
+\end{verbatim}
+としてください。
+
+コマンドのヘルプを見たいときは
+\begin{verbatim}
+git help #gitコマンド名#
+\end{verbatim}
+としてください。
+ここで \texttt{\#gitコマンド名\#} は git のコマンド名(init, add, commit, log, diff など)で置き換えてください。
+また、ここで紹介したコマンド以外にもたくさんの gitコマンドがあります。
+
+\subsection{リポジトリの clone}
+上の使用方法では自分でリポジトリを作りましたが、既に存在するリポジトリを自分の環境にコピーすることができます。
+\begin{verbatim}
+git clone #gitリポジトリパス#
+\end{verbatim}
+とすると現在のディレクトリに新しいディレクトリが作成されます。
+この新しいディレクトリは \texttt{\#gitリポジトリパス\#}で指定したリポジトリのコピーです。
+リポジトリの指定方法については後述します。
+
+Clone で作成されたリポジトリの場合、\texttt{.git/config} に clone 元のリモートリポジトリのパスが書かれているはずです。
+Clone したリポジトリに対して書き込み権限があれば変更をリモートリポジトリに反映することができます。
+\begin{verbatim}
+git push
+\end{verbatim}
+としてください。
+
+リモートリポジトリが更新された場合にその変更を自分のリポジトリに取り込むには
+\begin{verbatim}
+git pull
+\end{verbatim}
+とします。ただし、自分のリポジトリとリモートリポジトリとで同じファイルの同じ部分を編集していた場合には
+コンフリクトを自力で解消する必要があります。
+
+%この \texttt{git push}, \texttt{git pull} についてはこの授業で使用するかどうか検討中です。
+
+\if0
+\section{Scala のプログラムファイルをコンパイルする}
+
+\section{Scala用のビルドツール sbt を利用する}
+\fi
+
+\section{今日の課題}
+\begin{enumerate}
+\item Git の リポジトリを作って一通りコマンドを使ってみる(clone, push, pull以外)。
+一例としては、リポジトリを作る$\rightarrow$なにかテキストファイルを作る$\rightarrow$追加する$\rightarrow$コミットする$\rightarrow$ファイルを編集する$\rightarrow$差分を見る$\rightarrow$変更をコミットする$\rightarrow$ログを見る
+$\rightarrow$ファイルを編集する$\rightarrow$ 最初のリビジョンとの差分を見る。
+%\item 脇田先生の Git リポジトリから clone する。
+%\begin{verbatim}
+%git clone https://github.com/titech-is-cs115/lecture.git
+%\end{verbatim}
+%というコマンドを実行してください。
+%このリポジトリは GitHub というサービスを利用して公開しています。
+%ウェブブラウザから \texttt{https://github.com/\allowbreak titech-is-cs115/lecture} にアクセスすることでもリポジトリの内容を見ることができます。
+\item 以降は \url{https://titech-is-cs115.github.io/lecture/assignments/lx00a.html} を参照。
+%\item Scalaプログラムをコンパイルしてから実行する。
+%\item sbtコマンドを一通り使う。
+\end{enumerate}
+
+\end{document}

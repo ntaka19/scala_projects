@@ -1,0 +1,219 @@
+\documentclass[a4paper,twoside,onecolumn,openany,article]{memoir}
+\usepackage{xeCJK}
+\usepackage{url}
+\usepackage{hyperref}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{algpseudocode}
+\usepackage{algorithm}
+\defaultfontfeatures{Ligatures=TeX}
+
+\setCJKmainfont[BoldFont=IPAGothic]{IPAMincho}
+\setCJKsansfont{IPAGothic}
+\setCJKmonofont{IPAGothic}
+
+\theoremstyle{remark}
+\newtheorem{remark}{\bf 余談}
+
+
+%\setmainfont{}
+\setsansfont{URW Gothic}
+\setmonofont{Inconsolata}
+
+\usepackage{listings}
+
+
+
+\settrimmedsize{\stockheight}{\stockwidth}{*}
+
+%\setlrmarginsandblock{1.5in}{1in}{*}
+\setlrmarginsandblock{1.5in}{1.5in}{*}
+\setulmarginsandblock{1.3in}{1.5in}{*}
+\setheadfoot{20mm}{15mm}
+
+%\newlength{\linespace}
+%\setlength{\linespace}{\baselineskip}
+%\setlength{\headheight}{\onelineskip}
+%\setlength{\headsep}{\linespace}
+%\addtolength{\headsep}{-\topskip}
+
+%\setlength{\footskip}{\onelineskip}
+%\setlength{\footnotesep}{\onelineskip}
+
+\checkandfixthelayout
+
+\counterwithout{section}{chapter}
+\setsecnumdepth{subsubsection}
+
+\title{計算機科学第一}
+\date{10月20日}
+
+\begin{document}
+\maketitle
+
+\noindent
+今週の目標
+\begin{itemize}
+\item Scala の ビルドツール sbt と ScalaTest を用いた単体テストができるようになる。
+\end{itemize}
+
+%\section{今日の課題}
+\noindent
+今日の課題(提出締切は今週金曜日 23時59分59秒)
+\begin{enumerate}
+\item フィボナッチ数を計算する複数のプログラムの作成とそれらを利用したテストをする。
+\item パズルを解くプログラムの作成とそのプログラムの単体テストをする。
+\end{enumerate}
+
+\noindent
+今日のワークフロー
+\begin{enumerate}
+\item GitHub上の \verb|titech-is-cs115/assignment1| を fork する。
+\item GitHub上の \verb|#自分のアカウント名#/assignment1| を clone してフィボナッチ数についての課題を終わらせる。
+\item GitHub上の \verb|#自分のアカウント名#/assignment1| に push する。
+\item GitHub上の \verb|titech-is-cs115/assignment1| に Pull request を送る(次回から課題の提出方法に関するワークフローは書きません)。
+\item パズルの課題については...
+\end{enumerate}
+
+\section{フィボナッチ数を計算するアルゴリズムとテスト}
+\subsection{概要}
+プログラムを書くときにまず「効率は悪いけれども確実に正しく動作する実装」をまず書いてから
+「正しく動作するか少し不安だけど効率がよい実装」を書くことがあるかと思います。
+今回はフィボナッチ数を例に前者の実装を用いて後者の実装を sbt と ScalaTest を使ってテストしてみましょう。
+\subsection{効率は悪いが確実に正しく動作する実装}
+フィボナッチ数の定義をそのままプログラムにしてしまえば確実に正しく動きます。
+\begin{verbatim}
+  def fib_rec(n: Int) : BigInt = n match {
+    case 0 | 1 => n
+    case _ => fib_rec(n-1) + fib_rec(n-2)
+  }
+\end{verbatim}
+ここで\texttt{BigInt} は任意精度整数の型です($n$番目のフィボナッチ数は $n$に比べて指数関数的に大きいので単に \texttt{Int} としてしまうと桁溢れします)。
+
+\subsection{効率はまあまあよいが正しく動作するかちょっと不安な実装}
+反復を使った $O(n)$回の整数演算で $n$番目のフィボナッチ数を計算するプログラムです。
+\begin{algorithm}[H]
+\caption{$n$番目のフィボナッチ数を計算するアルゴリズム}
+\begin{algorithmic}
+\State $m \gets n$
+\State $a \gets 1$
+\State $b \gets 0$
+\While{$m \ge 1$}
+\State $(a,b)\gets (a+b,a)$
+\State $m \gets m-1$
+\EndWhile\\
+\Return $b$
+\end{algorithmic}
+\end{algorithm}
+
+\subsection{効率はかなりよいが正しく動作するか結構不安な実装}
+行列積を使った $O(\log n)$回の整数演算で $n$番目のフィボナッチ数を計算するプログラムです。
+$n$番目のフィボナッチ数を $\mathrm{fib}(n)$ と書くことにします。
+すると
+\begin{equation*}
+\begin{bmatrix}
+\mathrm{fib}(n+1)\\
+\mathrm{fib}(n)
+\end{bmatrix}
+=
+\begin{bmatrix}
+1&1\\
+1&0
+\end{bmatrix}
+\begin{bmatrix}
+\mathrm{fib}(n)\\
+\mathrm{fib}(n-1)
+\end{bmatrix}
+\end{equation*}
+という関係が $n\ge 1$ について成り立ちます。
+よって
+\begin{equation*}
+\begin{bmatrix}
+\mathrm{fib}(n+1)\\
+\mathrm{fib}(n)
+\end{bmatrix}
+=
+\begin{bmatrix}
+1&1\\
+1&0
+\end{bmatrix}^n
+\begin{bmatrix}
+1\\0
+\end{bmatrix}
+\end{equation*}
+が成り立ちます。
+行列 $A:=
+\begin{bmatrix}
+1&1\\
+1&0
+\end{bmatrix}$とおきます。
+$A^n$を効率よく計算するためにはどのようにすればよいでしょうか。
+もしも $n$ が2の羃であれば $A^2 = A\times A$, $A^4= A^2 \times A^2$, $A^8 = A^4\times A^4$, $\dotsc$
+と計算していけば $\log_2 n$回の行列積の計算で $A^n$ が計算できます。
+一般の $n$ については
+\begin{equation*}
+A^n = \begin{cases}
+A (A^{(n-1)/2})^2, \text{if $n$ is odd}\\
+(A^{n/2})^2, \text{if $n$ is even}
+\end{cases}
+\end{equation*}
+という関係を用いればアルゴリズム~\ref{alg:power}が得られます。
+%
+\begin{algorithm}[H]
+\caption{$A^n$を計算するアルゴリズム}
+\label{alg:power}
+\begin{algorithmic}
+\State $m \gets n$
+\State $r \gets I$
+\State $B \gets A$
+\While{$m \ge 1$}
+\If{$m$ is odd}
+  \State $r \gets r \times B$
+\EndIf
+\State $B\gets B\times B$
+\State $m \gets \lfloor m/2\rfloor $
+\EndWhile\\
+\Return $r$
+\end{algorithmic}
+\end{algorithm}
+%
+このアルゴリズムは反復回数が $\lfloor \log_2 n\rfloor+1$なので
+高々$2(\lfloor \log_2 n\rfloor+1)$回の行列積の計算で$A^n$が計算できます。
+このアルゴリズムを用いれば $O(\log n)$回の整数演算で $n$番目のフィボナッチ数が計算できます。
+
+
+
+\subsection{テストについて}
+まずフィボナッチ数の計算について定義通りの実装を除く残り 2つの実装を Scala で書いてください。おそらく for ループなどは計算機科学概論で教えられていないと思うので再帰で書くことになると思います。
+そして定義通りの実装を使って $O(n)$回の整数演算をする実装をテストしてください。
+定義通りの実装はとても遅いのであまり大きい$n$では計算が終わりません。
+次に $O(n)$回の整数演算をする実装を使って
+$O(\log n)$回の整数演算をする実装をテストしてください。
+ここでは $n=100$ くらいでもすぐに計算が終わります。
+この二段階のテストが上手くいったら自信を持って $O(\log n)$回の整数演算をする実装を利用することができます。
+
+\section*{余談: べき乗に必要な最小の演算回数について}
+%\begin{remark}{\bf 最小の演算回数について}
+アルゴリズム~\ref{alg:power}は行列のべき乗に限らず任意のモノイドにおけるべき乗の計算に適用できます(モノイドとは結合法則を満たす2項演算$\times$ と単位元を持つ集合のことです)。
+このアルゴリズムは$\lfloor \log_2 n\rfloor + \mathrm{popcount}(n) - 1$回のモノイドの演算 $\times$で$A^n := \underbrace{A\times A\times \dotsm \times A}_{n\text{個}}$を計算します
+(最後の$B\times B$の演算を除く)。
+ここで $\mathrm{popcount}(n)$ は $n$の二進数表現に含まれる 1 の数です。
+しかしこれは必ずしも最小の演算回数ではありません。
+例えば $A^{15}$の計算を考えてみましょう。
+アルゴリズム~\ref{alg:power}では 6 回の演算をします($A^8$, $A^4$, $A^2$ を計算するのに 3回、$A \times A^2 \times A^4 \times A^8$ を計算するのに3回)。
+しかし一方で $C=A^3$ を2回の演算で計算してから $C^5$ を 3回の演算で計算すれば 5回ですみます。
+関数 $l(n)$ を 「$A^n$ を計算するのに必要な最小の演算回数」と定義します。
+この関数 $l(n)$ は 入力サイズ$\lfloor\log_2 n\rfloor+1$に関して多項式時間で計算できるのでしょうか？
+そのようなアルゴリズムは未だ知られていません。
+また直感に反する事実として $l(2n)=l(n)$ となるような $n$ の存在が知られています。
+$A^{2n}$は $A^n$を二乗すればよいので $l(2n)= l(n)+1$となるような気がするのですがそれは一般には正しくないのです。
+しかもそれどころか $l(2n) = l(n)-1$となる$n$が存在します。これは $n=375494703$のときです。これを実際にプログラムで確認できたらすごいです。
+$l(n)$を計算するプログラムを書いてみるのはいい腕試しになるかもしれません($l(2n)=l(n)$となるような$n$は見つけられます)。
+
+他にも類似の問題として割り算も使える(例えば$A^7 = A^8 / A$ と計算できる)としたときの最小演算回数 ($\times$も$/$も1回と数える)を考えるのも面白いです。
+実用的には群(全ての元が逆元を持つモノイド。$a$の逆元$a^{-1}$ は $a \times a^{-1} = a^{-1} \times a = e$ を満す元。ここで $e$ は単位元)において逆元の計算が群演算$\times$に比べてずっと効率的な場合、
+そのような群の上でべき乗を効率的に計算するのに役に立ちます。上記のような性質を持つ群の具体例としては楕円曲線上の群があります(これは説明しません)。
+%\end{remark}
+
+
+\end{document}

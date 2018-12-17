@@ -1,0 +1,94 @@
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0mInitial source changes: [0m
+[0m[[0mdebug[0m] [0m	removed:Set()[0m
+[0m[[0mdebug[0m] [0m	added: Set(/home/naru/documents/cs1/assignment5/src/assignment5-mandelbrot.scala, /home/naru/documents/cs1/assignment5/src/complex.scala)[0m
+[0m[[0mdebug[0m] [0m	modified: Set()[0m
+[0m[[0mdebug[0m] [0mRemoved products: Set()[0m
+[0m[[0mdebug[0m] [0mExternal API changes: API Changes: Set()[0m
+[0m[[0mdebug[0m] [0mModified binary dependencies: Set()[0m
+[0m[[0mdebug[0m] [0mInitial directly invalidated sources: Set(/home/naru/documents/cs1/assignment5/src/assignment5-mandelbrot.scala, /home/naru/documents/cs1/assignment5/src/complex.scala)[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0mSources indirectly invalidated by:[0m
+[0m[[0mdebug[0m] [0m	product: Set()[0m
+[0m[[0mdebug[0m] [0m	binary dep: Set()[0m
+[0m[[0mdebug[0m] [0m	external source: Set()[0m
+[0m[[0mdebug[0m] [0mAll initially invalidated sources: Set(/home/naru/documents/cs1/assignment5/src/assignment5-mandelbrot.scala, /home/naru/documents/cs1/assignment5/src/complex.scala)[0m
+[0m[[0mdebug[0m] [0mRecompiling all 2 sources: invalidated sources (2) exceeded 50.0% of all sources[0m
+[0m[[0minfo[0m] [0mCompiling 2 Scala sources to /home/naru/documents/cs1/assignment5/src/target/scala-2.10/classes...[0m
+[0m[[0mdebug[0m] [0mGetting compiler-interface from component compiler for Scala 2.10.4[0m
+[0m[[0mdebug[0m] [0mGetting compiler-interface from component compiler for Scala 2.10.4[0m
+[0m[[0mdebug[0m] [0mRunning cached compiler 21de5ee9, interfacing (CompilerInterface) with Scala compiler version 2.10.4[0m
+[0m[[0mdebug[0m] [0mCalling Scala compiler with arguments  (CompilerInterface):[0m
+[0m[[0mdebug[0m] [0m	-bootclasspath[0m
+[0m[[0mdebug[0m] [0m	/usr/lib/jvm/java-8-oracle/jre/lib/resources.jar:/usr/lib/jvm/java-8-oracle/jre/lib/rt.jar:/usr/lib/jvm/java-8-oracle/jre/lib/sunrsasign.jar:/usr/lib/jvm/java-8-oracle/jre/lib/jsse.jar:/usr/lib/jvm/java-8-oracle/jre/lib/jce.jar:/usr/lib/jvm/java-8-oracle/jre/lib/charsets.jar:/usr/lib/jvm/java-8-oracle/jre/lib/jfr.jar:/usr/lib/jvm/java-8-oracle/jre/classes:/home/naru/.sbt/boot/scala-2.10.4/lib/scala-library.jar[0m
+[0m[[0mdebug[0m] [0m	-classpath[0m
+[0m[[0mdebug[0m] [0m	/home/naru/documents/cs1/assignment5/src/target/scala-2.10/classes[0m
+[0m[[31merror[0m] [0m/home/naru/documents/cs1/assignment5/src/assignment5-mandelbrot.scala:5: not found: object scalafx[0m
+[0m[[31merror[0m] [0mimport scalafx.Includes._[0m
+[0m[[31merror[0m] [0m       ^[0m
+[0m[[31merror[0m] [0m/home/naru/documents/cs1/assignment5/src/assignment5-mandelbrot.scala:6: not found: object scalafx[0m
+[0m[[31merror[0m] [0mimport scalafx.application.JFXApp[0m
+[0m[[31merror[0m] [0m       ^[0m
+[0m[[31merror[0m] [0m/home/naru/documents/cs1/assignment5/src/assignment5-mandelbrot.scala:7: not found: object scalafx[0m
+[0m[[31merror[0m] [0mimport scalafx.application.JFXApp.PrimaryStage[0m
+[0m[[31merror[0m] [0m       ^[0m
+[0m[[31merror[0m] [0m/home/naru/documents/cs1/assignment5/src/assignment5-mandelbrot.scala:8: not found: object scalafx[0m
+[0m[[31merror[0m] [0mimport scalafx.geometry._[0m
+[0m[[31merror[0m] [0m       ^[0m
+[0m[[31merror[0m] [0m/home/naru/documents/cs1/assignment5/src/assignment5-mandelbrot.scala:9: not found: object scalafx[0m
+[0m[[31merror[0m] [0mimport scalafx.scene.{Group,Node,Scene}[0m
+[0m[[31merror[0m] [0m       ^[0m
+[0m[[31merror[0m] [0m/home/naru/documents/cs1/assignment5/src/assignment5-mandelbrot.scala:10: not found: object scalafx[0m
+[0m[[31merror[0m] [0mimport scalafx.scene.canvas.{Canvas,GraphicsContext}[0m
+[0m[[31merror[0m] [0m       ^[0m
+[0m[[31merror[0m] [0m/home/naru/documents/cs1/assignment5/src/assignment5-mandelbrot.scala:11: not found: object scalafx[0m
+[0m[[31merror[0m] [0mimport scalafx.scene.control.Button[0m
+[0m[[31merror[0m] [0m       ^[0m
+[0m[[31merror[0m] [0m/home/naru/documents/cs1/assignment5/src/assignment5-mandelbrot.scala:12: not found: object scalafx[0m
+[0m[[31merror[0m] [0mimport scalafx.scene.input.MouseEvent[0m
+[0m[[31merror[0m] [0m       ^[0m
+[0m[[31merror[0m] [0m/home/naru/documents/cs1/assignment5/src/assignment5-mandelbrot.scala:13: not found: object scalafx[0m
+[0m[[31merror[0m] [0mimport scalafx.scene.layout.{BorderPane,HBox,Priority,VBox}[0m
+[0m[[31merror[0m] [0m       ^[0m
+[0m[[31merror[0m] [0m/home/naru/documents/cs1/assignment5/src/assignment5-mandelbrot.scala:14: not found: object scalafx[0m
+[0m[[31merror[0m] [0mimport scalafx.scene.paint.Color[0m
+[0m[[31merror[0m] [0m       ^[0m
+[0m[[31merror[0m] [0m/home/naru/documents/cs1/assignment5/src/assignment5-mandelbrot.scala:15: not found: object scalafx[0m
+[0m[[31merror[0m] [0mimport scalafx.scene.paint.Color._[0m
+[0m[[31merror[0m] [0m       ^[0m
+[0m[[31merror[0m] [0m/home/naru/documents/cs1/assignment5/src/assignment5-mandelbrot.scala:24: not found: type JFXApp[0m
+[0m[[31merror[0m] [0mobject Mandelbrot extends JFXApp {[0m
+[0m[[31merror[0m] [0m                          ^[0m
+[0m[[31merror[0m] [0m/home/naru/documents/cs1/assignment5/src/assignment5-mandelbrot.scala:32: not found: type Canvas[0m
+[0m[[31merror[0m] [0m  val canvas = new Canvas(w, h)[0m
+[0m[[31merror[0m] [0m                   ^[0m
+[0m[[31merror[0m] [0m/home/naru/documents/cs1/assignment5/src/assignment5-mandelbrot.scala:123: not found: type Button[0m
+[0m[[31merror[0m] [0m  val quitB = new Button("終了") { onAction =[0m
+[0m[[31merror[0m] [0m                  ^[0m
+[0m[[31merror[0m] [0m/home/naru/documents/cs1/assignment5/src/assignment5-mandelbrot.scala:123: not found: value onAction[0m
+[0m[[31merror[0m] [0m  val quitB = new Button("終了") { onAction =[0m
+[0m[[31merror[0m] [0m                                 ^[0m
+[0m[[31merror[0m] [0m/home/naru/documents/cs1/assignment5/src/assignment5-mandelbrot.scala:128: not found: type Button[0m
+[0m[[31merror[0m] [0m  val backwardB = new Button("戻る") { onAction =[0m
+[0m[[31merror[0m] [0m                      ^[0m
+[0m[[31merror[0m] [0m/home/naru/documents/cs1/assignment5/src/assignment5-mandelbrot.scala:128: not found: value onAction[0m
+[0m[[31merror[0m] [0m  val backwardB = new Button("戻る") { onAction =[0m
+[0m[[31merror[0m] [0m                                     ^[0m
+[0m[[31merror[0m] [0m/home/naru/documents/cs1/assignment5/src/assignment5-mandelbrot.scala:144: not found: type Button[0m
+[0m[[31merror[0m] [0m  val forwardB = new Button("前へ") { onAction =[0m
+[0m[[31merror[0m] [0m                     ^[0m
+[0m[[31merror[0m] [0m/home/naru/documents/cs1/assignment5/src/assignment5-mandelbrot.scala:144: not found: value onAction[0m
+[0m[[31merror[0m] [0m  val forwardB = new Button("前へ") { onAction =[0m
+[0m[[31merror[0m] [0m                                    ^[0m
+[0m[[31merror[0m] [0m/home/naru/documents/cs1/assignment5/src/assignment5-mandelbrot.scala:234: not found: value stage[0m
+[0m[[31merror[0m] [0m  stage = new PrimaryStage {[0m
+[0m[[31merror[0m] [0m  ^[0m
+[0m[[31merror[0m] [0m/home/naru/documents/cs1/assignment5/src/assignment5-mandelbrot.scala:250: not found: type GraphicsContext[0m
+[0m[[31merror[0m] [0m  def draw(gc: GraphicsContext) {[0m
+[0m[[31merror[0m] [0m               ^[0m
+[0m[[31merror[0m] [0m/home/naru/documents/cs1/assignment5/src/assignment5-mandelbrot.scala:266: not found: value stage[0m
+[0m[[31merror[0m] [0m    stage.title = theTitle()[0m
+[0m[[31merror[0m] [0m    ^[0m
+[0m[[31merror[0m] [0m22 errors found[0m
+[0m[[0mdebug[0m] [0mCompilation failed (CompilerInterface)[0m
+[0m[[31merror[0m] [0m(compile:[31mcompile[0m) Compilation failed[0m

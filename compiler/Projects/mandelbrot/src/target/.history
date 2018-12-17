@@ -1,0 +1,7 @@
+run
+run mandelbrot.scala
+run
+cd ../
+exit
+run
+exit

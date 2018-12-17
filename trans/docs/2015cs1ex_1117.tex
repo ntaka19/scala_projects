@@ -1,0 +1,194 @@
+\documentclass[a4paper,twoside,onecolumn,openany,article]{memoir}
+\usepackage{xeCJK}
+\usepackage{url}
+\usepackage{hyperref}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{algpseudocode}
+\usepackage{algorithm}
+\defaultfontfeatures{Ligatures=TeX}
+
+\setCJKmainfont[BoldFont=IPAGothic]{IPAMincho}
+\setCJKsansfont{IPAGothic}
+\setCJKmonofont{IPAGothic}
+
+\theoremstyle{remark}
+\newtheorem{remark}{\bf 余談}
+
+
+%\setmainfont{}
+\setsansfont{URW Gothic}
+\setmonofont{Inconsolata}
+
+\usepackage{listings}
+
+
+
+\settrimmedsize{\stockheight}{\stockwidth}{*}
+
+%\setlrmarginsandblock{1.5in}{1in}{*}
+\setlrmarginsandblock{1.5in}{1.5in}{*}
+\setulmarginsandblock{1.3in}{1.5in}{*}
+\setheadfoot{20mm}{15mm}
+
+%\newlength{\linespace}
+%\setlength{\linespace}{\baselineskip}
+%\setlength{\headheight}{\onelineskip}
+%\setlength{\headsep}{\linespace}
+%\addtolength{\headsep}{-\topskip}
+
+%\setlength{\footskip}{\onelineskip}
+%\setlength{\footnotesep}{\onelineskip}
+
+\checkandfixthelayout
+
+\counterwithout{section}{chapter}
+\setsecnumdepth{subsubsection}
+
+\title{計算機科学第一}
+\date{11月17日}
+
+\begin{document}
+\maketitle
+
+\noindent
+今週の目標
+\begin{itemize}
+\item Scala における 変数、破壊的代入、配列、forループなどを理解する。
+\end{itemize}
+
+%\section{今日の課題}
+\noindent
+今日の課題(提出締切は今週金曜日 23時59分59秒)
+\begin{enumerate}
+\item 
+再帰的な構造を持つ行列をベクトルに掛ける計算を配列を直接書き換えることによって実現する。
+\end{enumerate}
+
+\noindent
+今日のワークフロー
+\begin{enumerate}
+\item GitHub上の \verb|titech-is-cs115/assignment4| にある課題を終わらせて提出する。
+\end{enumerate}
+
+\section{変数}
+Scala では可変変数 (mutable variable) は \texttt{var} で宣言します。
+\begin{verbatim}
+var x = 1
+var y = x
+x = 3
+\end{verbatim}
+このとき \texttt{x} は \texttt{Int}型の 3,  \texttt{y} は \texttt{Int}型の1になっています。
+型は省略しても構いませんが右辺の型と異なるものを指定したい場合は
+\begin{verbatim}
+var x:BigInt = 1
+\end{verbatim}
+のようにします。
+値に名前を付けるには \texttt{val}をつかって
+\begin{verbatim}
+val z = 1
+\end{verbatim}
+のように宣言します。
+その後で
+\begin{verbatim}
+z = 3
+\end{verbatim}
+のように変更しようとしてもエラーになります。
+
+\section{配列}
+今まで Scalaではリストを主なデータ構造として扱ってきましたが
+C言語のような配列も使うことができます。
+\texttt{import scala.collection.mutable.\_}としてから
+\begin{verbatim}
+val x = ArraySeq(1,2,3)
+\end{verbatim}
+とすると 1 と 2 と 3 からなる長さ3の \texttt{Int}型の配列が作られ \texttt{x} という名前になります。
+\begin{verbatim}
+x(0)
+\end{verbatim}
+とすると最初の成分である 1 が返ってきます。
+\begin{verbatim}
+x(0) = 100
+\end{verbatim}
+とすると配列\texttt{x}の最初の成分を100に書き換えます。
+これは \texttt{x}を\texttt{val}で宣言していても許されます。
+\texttt{x}自体に再代入することはできませんが、\texttt{x}が含んでいるデータを書き換えることはできます。
+\begin{verbatim}
+val y = ArraySeq("a","b","c")
+\end{verbatim}
+とすると\texttt{String}型の配列が作られて \texttt{y}という名前になります。
+\begin{verbatim}
+val z = ArraySeq("a",10)
+\end{verbatim}
+とすると \texttt{Int}型と \texttt{String}型の共通の親クラスである \texttt{Any}型の配列が作られますが
+今回は説明しません。こういう使い方は考えなくてよいです。
+
+長さを指定して配列を生成したい場合は
+\begin{verbatim}
+val w = new ArraySeq[Int](100)
+\end{verbatim}
+とします。長さ100の\texttt{Int}型の配列が作られます。
+この場合型を明示することに気をつけてください。
+この配列は初期化されていないので(null が各成分に入っています)代入してから使ってください。
+
+配列はリストと違いランダムアクセス(任意の$i$番目の要素へのアクセス)が定数オーダーでできます。
+しかしリストのように先頭に要素を加える操作ができません。このような配列とリストの違いは「アルゴリズムとデータ構造」で扱ったと思います。
+その他の大きな違いとして Scala においては \texttt{ArraySeq}は変更できます(mutable)が \texttt{List} は変更できません(immutable)。
+変更できるデータ構造は他にもたくさんあります
+\url{http://www.scala-lang.org/api/current/index.html#scala.collection.mutable.package}。
+最初におまじないのように書いた\texttt{import scala.collection.mutable.\_}
+というのは Scala のライブラリの中からデータ構造(collection)で変更可能(mutable)なものの定義を全て(\texttt{\_}) import するという意味です。
+それぞれの型の特徴を知るには Scala の公式のドキュメントの一部の Guides and Overviews の中の
+\url{http://docs.scala-lang.org/overviews/collections/concrete-mutable-collection-classes.html}
+を読むとよいでしょう。
+
+
+\section{forループ}
+Scala でも \texttt{for} ループを使うことができます。
+\begin{verbatim}
+val n = 8
+for(i <- 0 until n) {
+  println(i)
+}
+\end{verbatim}
+とすると 0 から 7 が表示されます。他にもデータ構造を使って
+\begin{verbatim}
+val a = ArraySeq(1,10,100)
+for(i <- a) {
+  println(i)
+}
+\end{verbatim}
+とすると 1, 10, 100 が表示されます。
+\texttt{ArraySeq(1,10,100)}の部分は
+\texttt{List(1,10,100)}など他のデータ構造でも構いません。
+
+\section{今日の課題}
+行列$A_{2^k}$を
+\begin{align*}
+A_2 &:= \begin{bmatrix}1&1\\1&-1\end{bmatrix}\\
+A_{2^k} &:= \begin{bmatrix}A_{2^{k-1}}&A_{2^{k-1}}\\A_{2^{k-1}}&-A_{2^{k-1}}\end{bmatrix}
+\end{align*}
+で定義します。
+この行列の再帰的な構造を利用して入力$x$について $O(n\log n)$時間で $A_{n} x$ を計算してください($x$は長さ$n$のベクトル、$n$は2の羃とします)。
+関数 \texttt{trans(x: ArraySeq[Int], n: Int): ArraySeq[Int]} は長さ $n$の配列 \texttt{x}に対して $A_n \mathtt{x}$を計算して返す
+関数とします($n$は2の羃と仮定してよいです)。この計算の中では配列\texttt{x}を破壊的に書き換えることとし、新しい配列を生成しないでください(特に \texttt{ArraySeq}型のメンバ関数を使わなければ大丈夫です)。
+ヒントとしては補助関数\texttt{trans\_sub(x: ArraySeq[Int], rs: Int, re: Int): ArraySeq[Int]} として
+ベクトル\texttt{x}のインデックスが\texttt{rs}から\texttt{re}の範囲に$A_{\mathtt{re}-\mathtt{rs}+1}$を適用する(\texttt{x}を破壊的に書き換える)
+ものを用意するとよいです。
+補助関数の中では関係
+\begin{align*}
+A_{2^k}\begin{bmatrix}x_1\\x_2\end{bmatrix} =
+\begin{bmatrix}A_{2^{k-1}}x_1+ A_{2^{k-1}}x_2\\A_{2^{k-1}}x_1- A_{2^{k-1}}x_2\end{bmatrix}
+\end{align*}
+を利用して再帰的に計算してください。
+ただしこの補助関数も破壊的に\texttt{x}を書き換えるので
+\texttt{trans\_sub(x, rs, (rs+re)/2)}などと再帰呼出した返り値は受け取らなくてよいです。
+再帰呼出しの後に for ループで最終的な計算結果を導出してください。
+
+テストの方法については特に指定しませんが、再帰的な関係や$A_{2^k}^2=2^k I$となること($I$は単位行列)、$A_{2^k}$の$(i,j)$成分が$(-1)^{\langle b_i,\, b_j\rangle}$となること
+が利用できるかもしれません。
+ここで $b_i$は $i\in\{0,1,\dotsc,2^k-1\}$の二進数表現、 $\langle b_i,\, b_j\rangle$は$b_i$と$b_j$の内積(\texttt{popcount}($i$ \texttt{\&} $j$))とします。
+ 
+
+\end{document}

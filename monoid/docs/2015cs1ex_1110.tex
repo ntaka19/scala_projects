@@ -1,0 +1,188 @@
+\documentclass[a4paper,twoside,onecolumn,openany,article]{memoir}
+\usepackage{xeCJK}
+\usepackage{url}
+\usepackage{hyperref}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{algpseudocode}
+\usepackage{algorithm}
+\defaultfontfeatures{Ligatures=TeX}
+
+\setCJKmainfont[BoldFont=IPAGothic]{IPAMincho}
+\setCJKsansfont{IPAGothic}
+\setCJKmonofont{IPAGothic}
+
+\theoremstyle{remark}
+\newtheorem{remark}{\bf 余談}
+
+
+%\setmainfont{}
+\setsansfont{URW Gothic}
+\setmonofont{Inconsolata}
+
+\usepackage{listings}
+
+
+
+\settrimmedsize{\stockheight}{\stockwidth}{*}
+
+%\setlrmarginsandblock{1.5in}{1in}{*}
+\setlrmarginsandblock{1.5in}{1.5in}{*}
+\setulmarginsandblock{1.3in}{1.5in}{*}
+\setheadfoot{20mm}{15mm}
+
+%\newlength{\linespace}
+%\setlength{\linespace}{\baselineskip}
+%\setlength{\headheight}{\onelineskip}
+%\setlength{\headsep}{\linespace}
+%\addtolength{\headsep}{-\topskip}
+
+%\setlength{\footskip}{\onelineskip}
+%\setlength{\footnotesep}{\onelineskip}
+
+\checkandfixthelayout
+
+\counterwithout{section}{chapter}
+\setsecnumdepth{subsubsection}
+
+\title{計算機科学第一}
+\date{11月10日}
+
+\begin{document}
+\maketitle
+
+\noindent
+今週の目標
+\begin{itemize}
+\item 多相的な関数を書けるようになる。
+\end{itemize}
+
+%\section{今日の課題}
+\noindent
+今日の課題(提出締切は今週金曜日 23時59分59秒)
+\begin{enumerate}
+\item 
+モノイドに対する多相的な関数を実装する。
+\end{enumerate}
+
+\noindent
+今日のワークフロー
+\begin{enumerate}
+\item GitHub上の \verb|titech-is-cs115/assignment3| にある課題を終わらせて提出する。
+\end{enumerate}
+
+\section{モノイド}\label{sec:monoid}
+集合$A$と演算$\cdot: A\times A\to A$が次の2つの条件を満たすとき、ペア$(A,\cdot)$をモノイドという。
+\begin{itemize}
+\item {\bfseries 結合律:} $(a\cdot b)\cdot c = a\cdot(b\cdot c)$\qquad $\forall a, b, c \in A$.
+\item {\bfseries 単位元:} $\exists e \in A$ such that $e \cdot a = a\cdot e = a$\qquad $\forall a \in A$.
+\end{itemize}
+以下はモノイドの例である。単位元を明示的に示すために、集合、演算、単位元の三つ組で表現することにする。
+\begin{itemize}
+\item $(\mathbb{Z}, +, 0)$
+\item $(\mathbb{Z}, \times, 1)$
+\item $(\mathbb{Z}\cup\{\infty\}, \min, \infty)$
+\item $(\{\mathrm{true}, \mathrm{false}\}, \wedge, \mathrm{true})$
+\item $(\{\mathrm{true}, \mathrm{false}\}, \vee, \mathrm{false})$
+\item $(2^{S}, \cup, \emptyset)$
+\item $(2^{S}, \cap, S)$
+%\item $(\mathtt{String}, +, "")$
+\item $(S\to S, \circ, \mathrm{id}_S)$ ここで $S\to S$は集合 $S$ から集合$S$への写像の集合、$\circ$は写像の合成、$\mathrm{id}_S$は $S$上の恒等写像を指す。
+\item $(M_{n,n}, \times, I_n)$ ここで $M_{n,n}$は実数上の$n\times n$行列の集合、$\times$は行列積、$I_n$は$n\times n$の単位行列。
+\end{itemize}
+
+\section{Scala でのモノイドの扱い方}
+Scala では trait を使ってモノイドを表現する。
+\begin{verbatim}
+  trait Monoid[T] {
+    def op(x: T, y: T): T
+    def id :T
+  }
+\end{verbatim}
+trait とはオブジェクトの持つインターフェイスを定義するものである。
+ここで$T$は型を表している変数である。
+モノイド$(\mathbb{Z}, +, 0)$ の定義は以下のようになる。
+\begin{verbatim}
+  val intAddMonoid = new Monoid[Int] {
+    def op(x: Int, y: Int): Int = x + y
+    def id = 0
+  }
+\end{verbatim}
+すると次の様に演算や単位元を利用できる。
+\begin{verbatim}
+intAddMonoid.op(2,3)
+intAddMonoid.id
+\end{verbatim}
+また、リストのモノイド(リストの結合\texttt{++}を演算に持つモノイド)などモノイド自体を多相的にしたい場合は
+\begin{verbatim}
+  def listMonoid[A] = new Monoid[List[A]] {
+    def op(x: List[A], y: List[A]): List[A] = ...
+    def id = ...
+  }
+\end{verbatim}
+と \texttt{val} ではなく \texttt{def} を使う。
+このモノイドについて多相的な関数を定義することができる。
+例えばモノイドの要素 $a$ と $b$ について $a\cdot b\cdot a$ を返す関数 \texttt{aba}は
+
+\begin{verbatim}
+  def aba[T](a: T, b: T, m: Monoid[T]) = {
+    m.op(m.op(a, b), a)
+  }
+\end{verbatim}
+と書ける。
+\begin{verbatim}
+  aba(List(1,2), List(3,4), listMonoid[Int])
+\end{verbatim}
+は
+\begin{verbatim}
+  List(1,2,3,4,1,2)
+\end{verbatim}
+を返し
+\begin{verbatim}
+  aba(3, 4, intAddMonoid))
+\end{verbatim}
+は 10 を返す。
+
+\section{今日の課題}
+
+\begin{enumerate}
+\item 様々なモノイドの定義を Scala で書け。ソースファイルにコメントで書いてあるモノイドについて定義を書けばよい。
+\item モノイド $(A,\cdot_A)$ と モノイド $(B,\cdot_B)$ に対して集合 $A\times B$ の上に自然に演算を定義してモノイドとすることができる。
+これをモノイドの直積と呼ぶ。
+二つのモノイドを引数にとりそれらのモノイドの直積を返す関数
+\texttt{productMonoid[A, B](a: Monoid[A], b: Monoid[B]): Monoid[(A,B)]}
+を実装せよ。
+\item モノイドに対する多相的な関数
+\texttt{concatenate}、
+\texttt{foldMap}、
+\texttt{pow} を実装せよ。
+ここで \texttt{concatenate} はモノイドの要素からなるリストを受けとり、
+その要素をリストにおける順番に従いモノイド演算で結合したものを返す関数とする
+(例: $\mathtt{List}(a, b, c) \Rightarrow a \cdot b \cdot c$)。
+\texttt{foldMap}はリストとモノイドへの写像を受け取り、リストの各要素に写像を適用して得られたリストに
+\texttt{concatenate}を適用した結果を返す関数である
+(例: $(\mathtt{List}(a, b, c), f) \Rightarrow f(a) \cdot f(b) \cdot f(c)$)。
+\texttt{pow}はモノイドの要素$a$と自然数$n$を受け取り、$a^n=\underbrace{a\cdot a\cdot \dotsm \cdot a}_{n \text{ times}}$を返す関数である。
+ただし、$\texttt{pow}$についてはフィボナッチ数を扱った演習の時のように $O(\log n)$ 回のモノイド演算で計算せよ。
+\end{enumerate}
+ソースファイルにコメントアウトしてある関数等の型を変更しないこと。
+また、Section~\ref{sec:monoid}で紹介されているモノイドやその他のモノイドを実装してもよい。
+その場合 pull request のコメントでその旨書くこと。
+
+\section{余談: モノイドと並列計算}
+モノイドの結合法則を利用することで効率的な並列計算が実現できる。
+結合法則より
+\begin{equation*}
+(((x_1 \cdot x_2) \cdot x_3) \cdot x_4)
+=
+((x_1 \cdot x_2) \cdot (x_3 \cdot x_4))
+\end{equation*}
+が成り立つ。
+右辺において $(x_1\cdot x_2)$ の計算と $(x_3\cdot x_4)$ の計算は依存関係が無いので、
+並列計算モデルでは同時に計算できる。
+そうすると右辺は2回のモノイド演算の実行時間で評価できる。
+一方左辺のように計算する場合には逐次に3回のモノイド演算をしないといけないので
+3回分のモノイド演算の時間がかかる。
+
+\end{document}

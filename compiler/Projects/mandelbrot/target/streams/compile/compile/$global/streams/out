@@ -1,0 +1,50 @@
+[0m[[0mdebug[0m] [0mInvalidating /usr/lib/jvm/java-8-oracle/jre/lib/ext/jfxrt.jar: stamp changed from lastModified(1448636471000) to lastModified(1461718235000)[0m
+[0m[[0mdebug[0m] [0mInvalidating /usr/lib/jvm/java-8-oracle/jre/lib/rt.jar: stamp changed from lastModified(1448636471000) to lastModified(1461718235000)[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0mInitial source changes: [0m
+[0m[[0mdebug[0m] [0m	removed:Set()[0m
+[0m[[0mdebug[0m] [0m	added: Set()[0m
+[0m[[0mdebug[0m] [0m	modified: Set()[0m
+[0m[[0mdebug[0m] [0mRemoved products: Set()[0m
+[0m[[0mdebug[0m] [0mExternal API changes: API Changes: Set()[0m
+[0m[[0mdebug[0m] [0mModified binary dependencies: Set(/usr/lib/jvm/java-8-oracle/jre/lib/ext/jfxrt.jar, /usr/lib/jvm/java-8-oracle/jre/lib/rt.jar)[0m
+[0m[[0mdebug[0m] [0mInitial directly invalidated sources: Set()[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0mSources indirectly invalidated by:[0m
+[0m[[0mdebug[0m] [0m	product: Set()[0m
+[0m[[0mdebug[0m] [0m	binary dep: Set(/home/naru/documents/cs1/assignment5/src/assignment5-mandelbrot.scala, /home/naru/documents/cs1/assignment5/src/complex.scala)[0m
+[0m[[0mdebug[0m] [0m	external source: Set()[0m
+[0m[[0mdebug[0m] [0mAll initially invalidated sources: Set(/home/naru/documents/cs1/assignment5/src/assignment5-mandelbrot.scala, /home/naru/documents/cs1/assignment5/src/complex.scala)[0m
+[0m[[0mdebug[0m] [0mRecompiling all 2 sources: invalidated sources (2) exceeded 50.0% of all sources[0m
+[0m[[0minfo[0m] [0mCompiling 2 Scala sources to /home/naru/documents/cs1/assignment5/target/scala-2.11/classes...[0m
+[0m[[0mdebug[0m] [0mGetting compiler-interface from component compiler for Scala 2.11.7[0m
+[0m[[0minfo[0m] [0m[search path for source files: ][0m
+[0m[[0minfo[0m] [0m[search path for class files: /usr/lib/jvm/java-8-oracle/jre/lib/resources.jar:/usr/lib/jvm/java-8-oracle/jre/lib/rt.jar:/usr/lib/jvm/java-8-oracle/jre/lib/jsse.jar:/usr/lib/jvm/java-8-oracle/jre/lib/jce.jar:/usr/lib/jvm/java-8-oracle/jre/lib/charsets.jar:/usr/lib/jvm/java-8-oracle/jre/lib/jfr.jar:/usr/lib/jvm/java-8-oracle/jre/lib/ext/zipfs.jar:/usr/lib/jvm/java-8-oracle/jre/lib/ext/sunpkcs11.jar:/usr/lib/jvm/java-8-oracle/jre/lib/ext/sunec.jar:/usr/lib/jvm/java-8-oracle/jre/lib/ext/jaccess.jar:/usr/lib/jvm/java-8-oracle/jre/lib/ext/localedata.jar:/usr/lib/jvm/java-8-oracle/jre/lib/ext/cldrdata.jar:/usr/lib/jvm/java-8-oracle/jre/lib/ext/dnsns.jar:/usr/lib/jvm/java-8-oracle/jre/lib/ext/jfxrt.jar:/usr/lib/jvm/java-8-oracle/jre/lib/ext/nashorn.jar:/usr/lib/jvm/java-8-oracle/jre/lib/ext/sunjce_provider.jar:/home/naru/.ivy2/cache/org.scala-lang/scala-library/jars/scala-library-2.11.7.jar:/home/naru/documents/cs1/assignment5/target/scala-2.11/classes:/home/naru/.ivy2/cache/org.scalafx/scalafx_2.11/jars/scalafx_2.11-8.0.60-R9.jar:/home/naru/.ivy2/cache/org.scala-lang/scala-reflect/jars/scala-reflect-2.11.7.jar][0m
+[0m[[0mdebug[0m] [0mGetting compiler-interface from component compiler for Scala 2.11.7[0m
+[0m[[0mdebug[0m] [0mRunning cached compiler 234341e8, interfacing (CompilerInterface) with Scala compiler version 2.11.7[0m
+[0m[[0mdebug[0m] [0mCalling Scala compiler with arguments  (CompilerInterface):[0m
+[0m[[0mdebug[0m] [0m	-optimize[0m
+[0m[[0mdebug[0m] [0m	-feature[0m
+[0m[[0mdebug[0m] [0m	-unchecked[0m
+[0m[[0mdebug[0m] [0m	-deprecation[0m
+[0m[[0mdebug[0m] [0m	-Ylog-classpath[0m
+[0m[[0mdebug[0m] [0m	-bootclasspath[0m
+[0m[[0mdebug[0m] [0m	/usr/lib/jvm/java-8-oracle/jre/lib/resources.jar:/usr/lib/jvm/java-8-oracle/jre/lib/rt.jar:/usr/lib/jvm/java-8-oracle/jre/lib/sunrsasign.jar:/usr/lib/jvm/java-8-oracle/jre/lib/jsse.jar:/usr/lib/jvm/java-8-oracle/jre/lib/jce.jar:/usr/lib/jvm/java-8-oracle/jre/lib/charsets.jar:/usr/lib/jvm/java-8-oracle/jre/lib/jfr.jar:/usr/lib/jvm/java-8-oracle/jre/classes:/home/naru/.ivy2/cache/org.scala-lang/scala-library/jars/scala-library-2.11.7.jar[0m
+[0m[[0mdebug[0m] [0m	-classpath[0m
+[0m[[0mdebug[0m] [0m	/home/naru/documents/cs1/assignment5/target/scala-2.11/classes:/usr/lib/jvm/java-8-oracle/jre/lib/jfxrt.jar:/home/naru/.ivy2/cache/org.scalafx/scalafx_2.11/jars/scalafx_2.11-8.0.60-R9.jar:/home/naru/.ivy2/cache/org.scala-lang/scala-reflect/jars/scala-reflect-2.11.7.jar[0m
+[0m[[33mwarn[0m] [0m/home/naru/documents/cs1/assignment5/src/assignment5-mandelbrot.scala:95: match may not be exhaustive.[0m
+[0m[[33mwarn[0m] [0mIt would fail on the following input: Nil[0m
+[0m[[33mwarn[0m] [0m	lst match {[0m
+[0m[[33mwarn[0m] [0m	^[0m
+[0m[[33mwarn[0m] [0m/home/naru/documents/cs1/assignment5/src/assignment5-mandelbrot.scala:101: match may not be exhaustive.[0m
+[0m[[33mwarn[0m] [0mIt would fail on the following input: Nil[0m
+[0m[[33mwarn[0m] [0m	lst match {[0m
+[0m[[33mwarn[0m] [0m	^[0m
+[0m[[33mwarn[0m] [0mtwo warnings found[0m
+[0m[[0mdebug[0m] [0mScala compilation took 19.884651478 s[0m
+[0m[[0mdebug[0m] [0mNew invalidations:[0m
+[0m[[0mdebug[0m] [0m	Set()[0m
+[0m[[0mdebug[0m] [0mInitial set of included nodes: Set()[0m
+[0m[[0mdebug[0m] [0mPreviously invalidated, but (transitively) depend on new invalidations:[0m
+[0m[[0mdebug[0m] [0m	Set()[0m
+[0m[[0mdebug[0m] [0mAll newly invalidated sources after taking into account (previously) recompiled sources:Set()[0m

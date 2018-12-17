@@ -1,0 +1,15 @@
+[0m[[0mdebug[0m] [0mForking tests - parallelism = false[0m
+[0m[[0mdebug[0m] [0mCreate a single-thread test executor[0m
+[0m[[0mdebug[0m] [0mRunner for org.scalatest.tools.Framework produced 1 initial tasks for 1 tests.[0m
+[0m[[0mdebug[0m] [0m  Running TaskDef(cs1.assignment6.RandomGraphTest, sbt.ForkMain$SubclassFingerscan@7fdca37d, false, [SuiteSelector])[0m
+[0m[[0minfo[0m] [0m[32mRandomGraphTest:[0m[0m
+[0m[[0minfo[0m] [0m[32m- neighbor tests[0m[0m
+[0m[[0minfo[0m] [0m[32m- maximumComponent tests[0m[0m
+[0m[[0mdebug[0m] [0m    Produced 0 nested tasks and 2 events.[0m
+[0m[[0minfo[0m] [0m[36mRun completed in 1 second, 91 milliseconds.[0m[0m
+[0m[[0minfo[0m] [0m[36mTotal number of tests run: 2[0m[0m
+[0m[[0minfo[0m] [0m[36mSuites: completed 1, aborted 0[0m[0m
+[0m[[0minfo[0m] [0m[36mTests: succeeded 2, failed 0, canceled 0, ignored 0, pending 0[0m[0m
+[0m[[0minfo[0m] [0m[32mAll tests passed.[0m[0m
+[0m[[0mdebug[0m] [0mPassed tests:[0m
+[0m[[0mdebug[0m] [0m	cs1.assignment6.RandomGraphTest[0m
